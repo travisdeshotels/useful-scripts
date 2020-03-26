@@ -1,3 +1,4 @@
+import argparse
 import re as regex
 import sys
 
@@ -32,18 +33,20 @@ def write_output(output_data, output_file):
     with open(output_file, 'w') as outfile:
         outfile.write(output_data)
 
-def validate_arg():
-    if len(sys.argv) == 1:
-        print("Need a filename!")
-        sys.exit()
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("filename", help="File needing a copyright block")
+    parser.add_argument("-n", "--nostrip", help="Omit stripping existing copyright block", action="store_true")
+    return parser.parse_args()
 
 def main():
-    validate_arg()
-    file_name = sys.argv[1]
+    args = parse_args()
+    file_name = args.filename
     template_data = load_copyright_template(file_name)
     file_data = load_file_data(file_name)
-    stripped_data = strip_copyright_block(file_data)
-    write_output(template_data + stripped_data, file_name)
+    if not args.nostrip:
+        file_data = strip_copyright_block(file_data)
+    write_output(template_data + file_data, file_name)
 
 if __name__ == "__main__":
     main()
