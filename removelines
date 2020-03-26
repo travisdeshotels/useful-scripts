@@ -1,0 +1,15 @@
+#!/bin/bash
+file_name="$1"
+num_of_lines="$2"
+
+if [[ $# -ne 2 ]] ; then
+   echo "error: must specify a file name and line count" >&2; exit 1
+fi
+
+re='^[0-9]+$'
+if ! [[ $num_of_lines =~ $re ]] ; then
+   echo "error: lines arg is not a number" >&2; exit 1
+fi
+
+sed -i 1,"$num_of_lines"d "$file_name"
+
