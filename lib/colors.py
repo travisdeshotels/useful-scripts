@@ -16,3 +16,7 @@ def green(string):
 
 def red(string):
     return Colors.FAIL + string + Colors.END_C
+
+
+def yellow(string):
+    return Colors.WARNING + string + Colors.END_C
