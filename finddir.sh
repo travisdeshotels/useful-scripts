@@ -8,6 +8,6 @@ function finddir {
         echo "ERROR did not match one directory:"
         ls "$PROJECT_DIR" | grep -i "$1"
     else
-        "cd $PROJECT_DIR/$(ls "$PROJECT_DIR" | grep -i "$1")"
+        cd $PROJECT_DIR/$(ls "$PROJECT_DIR" | grep -i "$1")
     fi
 }
