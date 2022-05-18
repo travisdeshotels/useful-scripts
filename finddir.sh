@@ -4,13 +4,13 @@
 function finddir {
     PROJECT_DIR=""
 
-    match_count=$(ls "$PROJECT_DIR" | grep -ic "$1")
+    match_count=$(ls -l "$PROJECT_DIR" | grep '^d' | grep -ic "$1")
     if [[ $match_count == 0 ]];then
         echo "No match"
     elif [[ $match_count == 1 ]];then
         cd "$PROJECT_DIR/$(ls "$PROJECT_DIR" | grep -i "$1")" || exit
     else
-        lines=$(ls "$PROJECT_DIR" | grep -i "$1")
+        lines=$(ls -l "$PROJECT_DIR" | grep '^d' | grep -i "$1" | awk '{print $9}')
         i=1
         lines_array=()
         while IFS= read -r line
