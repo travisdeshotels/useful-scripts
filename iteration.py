@@ -14,8 +14,8 @@ def main():
     print(green('+' * current_sprint) + red('-' * (number_of_sprints - current_sprint)))
     print(f'Sprint {current_sprint}')
     print(green('+' * days_into_sprint) + red('-' * (14 - days_into_sprint)))
-    print(f'Day {days_into_sprint}')
-
+    print(f'Day {days_into_sprint}\n')
+    print(f'{days_into_iteration / iteration_diff.days:.0%}')
 
 if __name__ == '__main__':
     main()
