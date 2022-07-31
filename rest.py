@@ -5,6 +5,7 @@ import json
 import os
 import requests
 import sys
+import yaml
 
 from dotenv import load_dotenv
 
@@ -17,17 +18,21 @@ def get_env_value(var):
         sys.exit(1)
 
 
+def get_request_data():
+    with open(request_body_file, 'r') as stream:
+        return yaml.safe_load(stream)
+
+
+def get_header():
+    with open(header_file, 'r') as stream:
+        return yaml.safe_load(stream)
+
+
 def send_request():
-    header = json.load(open(header_file))
-    #print(type(header))
-    #print(header)
-    with open(request_body_file, 'r') as file:
-        data = json.loads(file.read())
-    #print(type(data))
-    #print(data)
+    header = get_header()
+    data = get_request_data()
     response = requests.request(args.request_type, url=base_url, headers=header, data=json.dumps(data))
     print(response.status_code)
-    print(response.text)
     f = codecs.open(response_file_name, 'w', 'utf-8')
     f.write(response.text)
     f.close()
