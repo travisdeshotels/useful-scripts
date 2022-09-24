@@ -20,3 +20,7 @@ def red(string):
 
 def yellow(string):
     return Colors.WARNING + string + Colors.END_C
+
+
+def underline(string):
+    return Colors.UNDERLINE + string + Colors.END_C
