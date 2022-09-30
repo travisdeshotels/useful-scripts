@@ -4,6 +4,7 @@ import requests
 import yaml
 
 from lib.colors import underline
+from lib.colors import red
 from dotenv import load_dotenv
 
 
@@ -22,13 +23,16 @@ def dump_data(items, header):
 
 
 class PullRequests:
+    bad_base = []
     drafts = []
     open_pulls = []
 
     def populate_pull_data(self, pulls):
         for pull in pulls:
             pull_list = self.open_pulls
-            if pull['draft']:
+            if (pull['base']['ref'] == 'main' or pull['base']['ref'] == 'master') and pull['head']['ref'] != 'develop':
+                pull_list = self.bad_base
+            elif pull['draft']:
                 pull_list = self.drafts
             pull_list.append({'title': pull['title'],
                               'html_url': pull['html_url']})
@@ -42,10 +46,11 @@ class PullRequests:
             for repo in org['repos']:
                 pulls = get_data(org, repo)
                 self.populate_pull_data(pulls)
+        dump_data(self.bad_base, red('Bad base:'))
         dump_data(self.drafts, underline('Drafts:'))
         dump_data(self.open_pulls, underline('Open pulls:'))
 
-        return self.drafts, self.open_pulls
+        return self.bad_base, self.drafts, self.open_pulls
 
 
 if __name__ == '__main__':
