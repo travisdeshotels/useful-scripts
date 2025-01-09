@@ -3,8 +3,8 @@ import os
 import requests
 import yaml
 
-from lib.colors import underline
-from lib.colors import red
+from colorslib.colors import underline
+from colorslib.colors import red
 from dotenv import load_dotenv
 
 
